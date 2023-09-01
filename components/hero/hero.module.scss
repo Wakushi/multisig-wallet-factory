@@ -1,0 +1,95 @@
+@import "../../assets/variables";
+
+.hero {
+  background-color: #000;
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+
+  .hero_blur {
+    z-index: 0;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    transform: translate(-50%, -50%) scale(7.5);
+    height: 100px;
+    width: 100px;
+    background-color: $primary-color;
+    box-shadow: 0 0 100px $primary-color;
+    filter: blur(70px);
+    animation: animateHeroBlur 20s infinite;
+    pointer-events: none;
+  }
+
+  .hero_text {
+    max-width: 740px;
+
+    h1 {
+      line-height: 0.8;
+    }
+  }
+
+  .hero_image_container {
+    position: relative;
+    border: 1px dotted rgba(255, 255, 255, 0.04);
+    border-radius: 0.8rem;
+    overflow: hidden;
+    box-shadow: 45px 45px 20px #000000;
+    max-width: 500px;
+    background-color: rgba(2, 0, 0, 0.16);
+    animation: animateHeroImgContainerShadow 20s infinite;
+
+    .hero_image {
+      max-width: 400px;
+      opacity: 0.8;
+      animation: animateHeroImgShadow 20s infinite;
+    }
+  }
+}
+
+@keyframes animateHeroBlur {
+  0% {
+    top: 35%;
+    left: 35%;
+    height: 70px;
+    width: 70px;
+  }
+  50% {
+    top: 60%;
+    left: 60%;
+    filter: blur(40px);
+    height: 90px;
+    width: 90px;
+  }
+  100% {
+    top: 35%;
+    left: 35%;
+    height: 70px;
+    width: 70px;
+  }
+}
+
+@keyframes animateHeroImgContainerShadow {
+  0% {
+    box-shadow: 45px 45px 20px #000000;
+  }
+  50% {
+    box-shadow: 15px 15px 20px #000000;
+  }
+  100% {
+    box-shadow: 45px 45px 20px #000000;
+  }
+}
+
+@keyframes animateHeroImgShadow {
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
