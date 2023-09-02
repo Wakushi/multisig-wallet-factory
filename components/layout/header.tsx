@@ -6,12 +6,14 @@ import {UserContext} from "@/services/UserContext";
 import Image from "next/image";
 import metamask from "@/assets/images/logo/metamask-logo.png";
 import together from "@/assets/images/logo/together-logo.png";
+import {useRouter} from "next/router";
 
 export default function Header() {
 
     const {walletAddress, connectWallet} = useContext(UserContext)
     const shortenWalletAddress = walletAddress ? walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4) : null
     const headerRef = useRef<HTMLHeadElement | null>(null)
+    const router = useRouter()
 
     useEffect(() => {
         window.addEventListener('scroll', function () {
@@ -25,7 +27,9 @@ export default function Header() {
     })
 
     return <header className={classes.header} ref={headerRef}>
-        <div className="logo flex items-center">
+        <div className="logo flex items-center cursor-pointer" onClick={() => {
+            router.push("/")
+        }}>
             <div className="logo-img-container">
                 <Image src={together} alt="TogEther Logo" width={40} height={40}/>
             </div>
@@ -33,8 +37,8 @@ export default function Header() {
         </div>
         <nav>
             <ul className="flex items-center gap-14">
-                <li className={classes.nav_link}><Link href="/">Create</Link></li>
-                <li className={classes.nav_link}><Link href="/">Solutions</Link></li>
+                <li className={classes.nav_link}><Link href="create">Create</Link></li>
+                <li className={classes.nav_link}><Link href="wallets">Manage</Link></li>
                 <li className={classes.nav_link}><Link href="/">About</Link></li>
                 <Button onClick={connectWallet}>
                     {walletAddress ?

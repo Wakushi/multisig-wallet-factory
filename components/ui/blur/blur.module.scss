@@ -1,0 +1,38 @@
+@import "../../../assets/variables.scss";
+
+.blur {
+  z-index: 0;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%) scale(7.5);
+  height: 100px;
+  width: 100px;
+  background-color: $primary-color;
+  box-shadow: 0 0 100px $primary-color;
+  filter: blur(60px);
+  animation: animateHeroBlur 20s infinite;
+  pointer-events: none;
+}
+
+@keyframes animateHeroBlur {
+  0% {
+    top: 35%;
+    left: 35%;
+    height: 70px;
+    width: 70px;
+  }
+  50% {
+    top: 60%;
+    left: 60%;
+    filter: blur(40px);
+    height: 90px;
+    width: 90px;
+  }
+  100% {
+    top: 35%;
+    left: 35%;
+    height: 70px;
+    width: 70px;
+  }
+}

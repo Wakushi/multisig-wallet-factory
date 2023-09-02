@@ -10,7 +10,7 @@ interface ButtonProps {
 export default function Button(props: ButtonProps) {
     return <button
         onClick={props.onClick}
-        className={`${classes.button} ${props.filled ? "" : ""}`}>
+        className={`${props.filled ? classes.button : classes.button_empty}`}>
         {props.children}
     </button>
 }

@@ -1,8 +1,9 @@
 @import "../../../assets/variables";
 
-.button {
+
+.button,
+.button_empty {
   padding: 0.3rem 1.4rem;
-  background: $secondary-color;
   border: 2px solid transparent;
   border-radius: 0.2rem;
   color: #fff;
@@ -24,8 +25,15 @@
   &:focus-visible {
     background-color: #fff;
     color: $secondary-color;
+    transform: translate(0%, -4%);
   }
 
 }
 
+.button {
+  background: $secondary-color;
+}
 
+.button_empty {
+  border: 1px solid #fff;
+}
