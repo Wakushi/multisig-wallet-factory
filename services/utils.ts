@@ -1,4 +1,4 @@
-function verifyAddresses(addresses: string[]): boolean {
+function areAddressesValid(addresses: string[]): boolean {
     const isFormatValid = addresses.every((address) => {
         return address.length === 42 && address.startsWith('0x');
     });
@@ -7,9 +7,7 @@ function verifyAddresses(addresses: string[]): boolean {
 }
 
 function saveMultiSigAddress(address: string): void {
-    console.log('saving address', address)
     const addresses = JSON.parse(localStorage.getItem('address') || '[]');
-    console.log("saved addresses", addresses)
     if (!addresses) {
         localStorage.setItem('address', address);
     } else {
@@ -18,4 +16,4 @@ function saveMultiSigAddress(address: string): void {
     }
 }
 
-export {verifyAddresses, saveMultiSigAddress};
+export {areAddressesValid, saveMultiSigAddress};

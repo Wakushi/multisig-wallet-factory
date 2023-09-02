@@ -1,0 +1,104 @@
+@import "../../assets/variables.scss";
+
+.wallet_details {
+  position: relative;
+  margin: 15rem auto;
+  max-width: 1100px;
+
+  i {
+    position: absolute;
+    font-size: 3rem;
+    top: -60px;
+    left: 0px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 500ms;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+  }
+}
+
+.transaction_input {
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(66, 66, 66, 0.29);
+  background-color: rgba(0, 0, 0, 0.28);
+  border-radius: 1rem;
+  width: 450px;
+  margin-right: 1rem;
+  box-shadow: inset 1px 1px 8px #000000;
+
+  input {
+    background: transparent;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: 300;
+  }
+}
+
+
+.create_transaction_modal,
+.create_transaction_modal_inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create_transaction_modal {
+  position: absolute;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  .create_transaction_modal_inner {
+    position: relative;
+    border-radius: 0.4rem;
+    padding: 5rem;
+    animation: fade-in-grow 1.3s ease-in-out forwards;
+    max-width: 1200px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid $secondary-color;
+    background-color: rgba(0, 0, 0, 0.63);
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    i {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: 500ms;
+
+      &:hover,
+      &:focus-visible {
+        opacity: 1;
+      }
+    }
+
+    form {
+      button {
+        align-self: center;
+        margin-top: 1rem;
+      }
+    }
+
+  }
+}

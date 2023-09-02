@@ -1,0 +1,60 @@
+@import "../../../assets/variables.scss";
+
+.corner_top_left,
+.corner_top_right,
+.corner_bottom_left,
+.corner_bottom_right,
+.plus_container_top,
+.plus_container_bottom {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  animation: flicker_in_1 1s 2s linear both;
+}
+
+.corner_top_left {
+  top: 0;
+  left: 0;
+  border-top: $border;
+  border-left: $border;
+}
+
+.corner_top_right {
+  top: 0;
+  right: 0;
+  border-top: $border;
+  border-right: $border;
+}
+
+.corner_bottom_right {
+  bottom: 0;
+  right: 0;
+  border-bottom: $border;
+  border-right: $border;
+}
+
+.corner_bottom_left {
+  bottom: 0;
+  left: 0;
+  border-bottom: $border;
+  border-left: $border;
+}
+
+.plus_container_top {
+  top: 0;
+}
+
+.plus_container_bottom {
+  bottom: 0;
+}
+
+.plus_bar_1,
+.plus_bar_2 {
+  width: 100%;
+  border: $border;
+}
+
+.plus_bar_2 {
+  transform: rotate(90deg);
+  position: absolute;
+}

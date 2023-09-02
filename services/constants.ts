@@ -1,4 +1,4 @@
-export const multiSigWalletFactoryAddress = '0x53bbc0Ec2A2DF920929B6102B9d5b95c2BbCE6d0'
+export const multiSigWalletFactoryAddress = '0x193b7F56c958b73bA9B894120296b29ABeEBE2E4'
 
 export const multiSigWalletFactoryAbi = [
     {
@@ -299,6 +299,19 @@ export const multiSigWalletAbi = [
         "name": "executeTransaction",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getNumberOfTransactions",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {

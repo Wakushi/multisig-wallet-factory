@@ -1,11 +1,17 @@
 import classes from "./waiting-modal.module.scss";
 import Loader from "@/components/ui/loader/loader";
 
-export default function WaitingModal() {
+interface WaitingModalProps {
+    children: React.ReactNode;
+}
+
+export default function WaitingModal(props: WaitingModalProps) {
     return (
         <div className={classes.modal_container}>
             <div className={classes.modal_inner}>
-                <p>Creating your multisig wallet...</p>
+                <p>
+                    {props.children}
+                </p>
                 <Loader/>
             </div>
         </div>

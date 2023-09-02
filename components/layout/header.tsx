@@ -26,6 +26,17 @@ export default function Header() {
         })
     })
 
+    async function handleConnectionPriorRouting(route: string) {
+        if (!walletAddress) {
+            const account = await connectWallet()
+            if (account) {
+                router.push(route)
+            }
+        } else {
+            router.push(route)
+        }
+    }
+
     return <header className={classes.header} ref={headerRef}>
         <div className="logo flex items-center cursor-pointer" onClick={() => {
             router.push("/")
@@ -37,8 +48,8 @@ export default function Header() {
         </div>
         <nav>
             <ul className="flex items-center gap-14">
-                <li className={classes.nav_link}><Link href="create">Create</Link></li>
-                <li className={classes.nav_link}><Link href="wallets">Manage</Link></li>
+                <li className={classes.nav_link} onClick={() => handleConnectionPriorRouting('/create')}>Create</li>
+                <li className={classes.nav_link} onClick={() => handleConnectionPriorRouting('/wallets')}>Manage</li>
                 <li className={classes.nav_link}><Link href="/">About</Link></li>
                 <Button onClick={connectWallet}>
                     {walletAddress ?
