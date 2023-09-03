@@ -1,4 +1,4 @@
-export const multiSigWalletFactoryAddress = '0x193b7F56c958b73bA9B894120296b29ABeEBE2E4'
+export const multiSigWalletFactoryAddress = '0x93b460Fa61C6A481bbB0748E544195B405C3684C'
 
 export const multiSigWalletFactoryAbi = [
     {
@@ -374,6 +374,30 @@ export const multiSigWalletAbi = [
                 "internalType": "uint256",
                 "name": "numberOfConfirmations",
                 "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_txIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "hasOwnerConfirmedTx",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
         "stateMutability": "view",

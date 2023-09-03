@@ -65,12 +65,8 @@ body {
   }
 }
 
-
-.fa-left-long {
-  position: absolute;
-  font-size: 3rem;
-  top: -70px;
-  left: 0px;
+.fa-regular,
+.fa-solid {
   cursor: pointer;
   opacity: 0.5;
   transition: 500ms;
@@ -80,6 +76,22 @@ body {
     opacity: 1;
   }
 }
+
+.fa-left-long {
+  position: absolute;
+  font-size: 3rem;
+  top: -70px;
+  left: 0px;
+}
+
+.fa-copy {
+  font-size: 1.4rem;
+}
+
+//////////////////////////
+// KEYFRAMES ANIMATIONS //
+//////////////////////////
+
 
 .fade-in-bottom {
   animation: fade-in-bottom 1s ease-in-out;

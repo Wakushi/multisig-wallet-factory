@@ -1,0 +1,36 @@
+@import "../../../assets/variables.scss";
+
+.snackbar_container {
+  position: absolute;
+  z-index: 5;
+  background-color: $secondary-color;
+  border-radius: 0 0 1rem 1rem;
+  padding: 1rem 2rem;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%);
+  animation: slide-in-and-out 2s ease-in-out forwards;
+
+  p {
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+}
+
+@keyframes slide-in-and-out {
+  0% {
+    top: -10%;
+  }
+  40% {
+    top: 0%;
+  }
+  80% {
+    top: 0%;
+  }
+  100% {
+    top: -10%;
+  }
+}
+

@@ -1,8 +1,9 @@
-import React, {createContext, useState, ReactNode, useEffect} from 'react';
+import React, {createContext, useState, ReactNode, useEffect, useContext} from 'react';
 import {ethers} from "ethers";
 import {multiSigWalletAbi, multiSigWalletFactoryAbi, multiSigWalletFactoryAddress} from "@/services/constants";
 import {saveMultiSigAddress} from "@/services/utils";
 import {useRouter} from "next/router";
+import {UserContext} from "@/services/UserContext";
 
 interface BlockchainContextProviderProps {
     children: ReactNode;
@@ -12,6 +13,10 @@ interface BlockchainContextProps {
     createMultiSigWallet: (ownersAddresses: string[], requiredConfirmationsAmount: number) => void;
     setAreAddressesValidated: (areAddressesValidated: boolean) => void;
     submitTransaction: (multiSigAddress: string, destination: string, value: string, data: string) => void;
+    confirmTransaction: (multiSigAddress: string, transactionIndex: number) => void;
+    revokeConfirmation: (multiSigAddress: string, transactionIndex: number) => void;
+    executeTransaction: (multiSigAddress: string, transactionIndex: number) => void;
+
     isWaitingForTransaction: boolean;
     areAddressesValidated: boolean;
 
@@ -20,6 +25,12 @@ interface BlockchainContextProps {
     getNumberOfTransactions(multiSigAddress: string): Promise<number>;
 
     getTransactionByIndex(multiSigAddress: string, index: number): Promise<any>;
+
+    checkHasOwnerConfirmedTx(multiSigAddress: string, transactionIndex: number): Promise<any>;
+
+    getRequiredAmountOfConfirmations(multiSigAddress: string): Promise<any>;
+
+    getWalletBalance(multiSigAddress: string): Promise<any>;
 }
 
 const BlockchainContext = createContext<BlockchainContextProps>({
@@ -28,6 +39,12 @@ const BlockchainContext = createContext<BlockchainContextProps>({
     setAreAddressesValidated: (areAddressesValidated: boolean) => {
     },
     submitTransaction: (multiSigAddress: string, destination: string, value: string, data: string) => {
+    },
+    confirmTransaction: (multiSigAddress: string, transactionIndex: number) => {
+    },
+    revokeConfirmation: (multiSigAddress: string, transactionIndex: number) => {
+    },
+    executeTransaction: (multiSigAddress: string, transactionIndex: number) => {
     },
     getOwners: (multiSigAddress: string): Promise<string[]> => {
         return new Promise<string[]>(() => {
@@ -41,6 +58,18 @@ const BlockchainContext = createContext<BlockchainContextProps>({
         return new Promise<any>(() => {
         })
     },
+    checkHasOwnerConfirmedTx: (multiSigAddress: string, transactionIndex: number): Promise<any> => {
+        return new Promise<any>(() => {
+        })
+    },
+    getRequiredAmountOfConfirmations: (multiSigAddress: string): Promise<any> => {
+        return new Promise<any>(() => {
+        })
+    },
+    getWalletBalance: (multiSigAddress: string): Promise<any> => {
+        return new Promise<any>(() => {
+        })
+    },
     isWaitingForTransaction: false,
     areAddressesValidated: true
 });
@@ -48,7 +77,7 @@ const BlockchainContext = createContext<BlockchainContextProps>({
 export default function BlockchainContextProvider(props: BlockchainContextProviderProps) {
     const [isWaitingForTransaction, setIsWaitingForTransaction] = useState<boolean>(false)
     const [areAddressesValidated, setAreAddressesValidated] = useState<boolean>(true)
-
+    const {walletAddress} = useContext(UserContext)
     const router = useRouter()
 
     useEffect(() => {
@@ -80,6 +109,10 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
     // MultiSigWallet Methods  //
     /////////////////////////////
 
+    //////////////
+    // READONLY //
+    //////////////
+
     async function getOwners(multiSigAddress: string) {
         if (typeof window.ethereum !== "undefined") {
             const provider = new ethers.BrowserProvider(window.ethereum);
@@ -110,18 +143,13 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         }
     }
 
-    async function submitTransaction(multiSigAddress: string, destination: string, value: string, data: string) {
+    async function checkHasOwnerConfirmedTx(multiSigAddress: string, transactionIndex: number) {
         if (typeof window.ethereum !== "undefined") {
             const provider = new ethers.BrowserProvider(window.ethereum);
-            const signer = await provider.getSigner()
-            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, signer)
-            const valueInWei = ethers.parseEther(value);
-            const dataInBytes = ethers.toUtf8Bytes(data);
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
             try {
-                const transactionResponse = await contract.proposeTransaction(destination, valueInWei, dataInBytes)
-                setIsWaitingForTransaction(true)
-                // listenToWalletEvents(multiSigAddress)
-                listenForTransactionMine(transactionResponse, provider)
+                const transactionResponse = await contract.hasOwnerConfirmedTx(walletAddress, transactionIndex)
+                return transactionResponse
             } catch (error) {
                 console.log(error)
             }
@@ -150,6 +178,112 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             console.log("Please install MetaMask")
         }
     }
+
+    async function getRequiredAmountOfConfirmations(multiSigAddress: string) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
+            try {
+                const transactionResponse = await contract.getRequireAmountOfConfirmations()
+                return transactionResponse.toString()
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
+    async function getWalletBalance(multiSigAddress: string) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            try {
+                const balance = await provider.getBalance(multiSigAddress);
+                console.log(balance)
+                return ethers.formatEther(balance)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
+    //////////////
+    //  WRITE   //
+    //////////////
+
+    async function submitTransaction(multiSigAddress: string, destination: string, value: string, data: string) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner()
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, signer)
+            const valueInWei = ethers.parseEther(value);
+            // const dataInBytes = ethers.toUtf8Bytes(data);
+            try {
+                const transactionResponse = await contract.proposeTransaction(destination, valueInWei, data)
+                setIsWaitingForTransaction(true)
+                // listenToWalletEvents(multiSigAddress)
+                listenForTransactionMine(transactionResponse, provider)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
+    async function confirmTransaction(multiSigAddress: string, transactionIndex: number) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner()
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, signer)
+            try {
+                const transactionResponse = await contract.confirmTransaction(transactionIndex)
+                setIsWaitingForTransaction(true)
+                listenForTransactionMine(transactionResponse, provider)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
+    async function executeTransaction(multiSigAddress: string, transactionIndex: number) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner()
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, signer)
+            try {
+                const transactionResponse = await contract.executeTransaction(transactionIndex)
+                setIsWaitingForTransaction(true)
+                listenForTransactionMine(transactionResponse, provider)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
+    async function revokeConfirmation(multiSigAddress: string, transactionIndex: number) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner()
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, signer)
+            try {
+                const transactionResponse = await contract.revokeConfirmation(transactionIndex)
+                setIsWaitingForTransaction(true)
+                listenForTransactionMine(transactionResponse, provider)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
 
     ////////////////////////////////
     //  General Methods & Events  //
@@ -194,9 +328,15 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         createMultiSigWallet: createMultiSigWalletHandler,
         setAreAddressesValidated: setAreAddressesValidated,
         submitTransaction: submitTransaction,
+        confirmTransaction: confirmTransaction,
+        revokeConfirmation: revokeConfirmation,
+        executeTransaction: executeTransaction,
         getOwners: getOwners,
         getNumberOfTransactions: getNumberOfTransactions,
         getTransactionByIndex: getTransactionByIndex,
+        checkHasOwnerConfirmedTx: checkHasOwnerConfirmedTx,
+        getRequiredAmountOfConfirmations: getRequiredAmountOfConfirmations,
+        getWalletBalance: getWalletBalance,
         isWaitingForTransaction: isWaitingForTransaction,
         areAddressesValidated: areAddressesValidated
     };
