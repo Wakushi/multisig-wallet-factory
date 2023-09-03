@@ -1,4 +1,4 @@
-export const multiSigWalletFactoryAddress = '0x93b460Fa61C6A481bbB0748E544195B405C3684C'
+export const multiSigWalletFactoryAddress = '0x428C8B781F951f57E81785e7Ce399aaa85e2a047'
 
 export const multiSigWalletFactoryAbi = [
     {
@@ -66,17 +66,17 @@ export const multiSigWalletFactoryAbi = [
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
             }
         ],
-        "name": "listOfMultiSigWalletsContracts",
+        "name": "getWalletsByOwner",
         "outputs": [
             {
-                "internalType": "contract MultiSigWallet",
+                "internalType": "address[]",
                 "name": "",
-                "type": "address"
+                "type": "address[]"
             }
         ],
         "stateMutability": "view",

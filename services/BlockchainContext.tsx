@@ -1,4 +1,4 @@
-import React, {createContext, useState, ReactNode, useEffect, useContext} from 'react';
+import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {ethers} from "ethers";
 import {multiSigWalletAbi, multiSigWalletFactoryAbi, multiSigWalletFactoryAddress} from "@/services/constants";
 import {saveMultiSigAddress} from "@/services/utils";
@@ -31,6 +31,8 @@ interface BlockchainContextProps {
     getRequiredAmountOfConfirmations(multiSigAddress: string): Promise<any>;
 
     getWalletBalance(multiSigAddress: string): Promise<any>;
+
+    handleGetWalletsByOwner(): Promise<any>;
 }
 
 const BlockchainContext = createContext<BlockchainContextProps>({
@@ -70,6 +72,10 @@ const BlockchainContext = createContext<BlockchainContextProps>({
         return new Promise<any>(() => {
         })
     },
+    handleGetWalletsByOwner: (): Promise<any> => {
+        return new Promise<any>(() => {
+        })
+    },
     isWaitingForTransaction: false,
     areAddressesValidated: true
 });
@@ -105,6 +111,20 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         }
     }
 
+    async function handleGetWalletsByOwner() {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const contract = new ethers.Contract(multiSigWalletFactoryAddress, multiSigWalletFactoryAbi, provider)
+            try {
+                return await contract.getWalletsByOwner(walletAddress)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
     /////////////////////////////
     // MultiSigWallet Methods  //
     /////////////////////////////
@@ -118,8 +138,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
             try {
-                const transactionResponse = await contract.getOwners()
-                return transactionResponse
+                return await contract.getOwners()
             } catch (error) {
                 console.log(error)
             }
@@ -148,8 +167,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
             try {
-                const transactionResponse = await contract.hasOwnerConfirmedTx(walletAddress, transactionIndex)
-                return transactionResponse
+                return await contract.hasOwnerConfirmedTx(walletAddress, transactionIndex)
             } catch (error) {
                 console.log(error)
             }
@@ -337,6 +355,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         checkHasOwnerConfirmedTx: checkHasOwnerConfirmedTx,
         getRequiredAmountOfConfirmations: getRequiredAmountOfConfirmations,
         getWalletBalance: getWalletBalance,
+        handleGetWalletsByOwner: handleGetWalletsByOwner,
         isWaitingForTransaction: isWaitingForTransaction,
         areAddressesValidated: areAddressesValidated
     };

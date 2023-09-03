@@ -2,7 +2,6 @@ import Blur from "@/components/ui/blur/blur";
 import classes from "./wallets.module.scss";
 import {useContext, useEffect, useState} from "react";
 import {BlockchainContext} from "@/services/BlockchainContext";
-import Link from "next/link";
 import WalletCard from "@/components/wallet-card/wallet-card";
 
 interface Wallet {
@@ -12,14 +11,14 @@ interface Wallet {
 
 export default function WalletsPage() {
     const [wallets, setWallets] = useState<Wallet[]>()
-    const {getOwners} = useContext(BlockchainContext);
+    const {getOwners, handleGetWalletsByOwner} = useContext(BlockchainContext);
 
     useEffect(() => {
         getWallets()
     }, [])
 
     async function getWallets() {
-        const userWallets = JSON.parse(localStorage.getItem('address') || '[]');
+        const userWallets = await handleGetWalletsByOwner()
         if (userWallets && userWallets.length) {
             const allWallets: Wallet[] = []
             for (const walletAddress of userWallets) {
