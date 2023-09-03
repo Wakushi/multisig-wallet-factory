@@ -1,4 +1,4 @@
-export const multiSigWalletFactoryAddress = '0x428C8B781F951f57E81785e7Ce399aaa85e2a047'
+export const multiSigWalletFactoryAddress = '0x528a8fccef86fede3500b2059df79ed50b6edd77'
 
 export const multiSigWalletFactoryAbi = [
     {
@@ -274,6 +274,10 @@ export const multiSigWalletAbi = [
         ],
         "name": "SubmitTransaction",
         "type": "event"
+    },
+    {
+        "stateMutability": "payable",
+        "type": "fallback"
     },
     {
         "inputs": [
