@@ -43,7 +43,7 @@ export default function WalletDetailsPage() {
 
     async function handleGetNumberOfTransactions(walletId: string) {
         const numberOfTransactions = await getNumberOfTransactions(walletId as string)
-        setNumberOfTransactions(numberOfTransactions.toString())
+        setNumberOfTransactions(numberOfTransactions ? numberOfTransactions.toString() : "0")
     }
 
     function handleTransactionFormSubmit(event: any) {

@@ -24,7 +24,7 @@ export default function WalletCard({wallet}: WalletCardProps) {
 
     async function handleGetNumberOfTransactions(walletId: string) {
         const numberOfTransactions = await getNumberOfTransactions(walletId as string)
-        setNumberOfTransactions(numberOfTransactions.toString())
+        setNumberOfTransactions(numberOfTransactions ? numberOfTransactions.toString() : "0")
     }
 
     return (
