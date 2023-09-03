@@ -16,4 +16,8 @@ function saveMultiSigAddress(address: string): void {
     }
 }
 
-export {areAddressesValid, saveMultiSigAddress};
+function getShortenedAddress(address: string): string {
+    return address.slice(0, 6) + "..." + address.slice(-4)
+}
+
+export {areAddressesValid, saveMultiSigAddress, getShortenedAddress};

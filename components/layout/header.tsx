@@ -7,11 +7,12 @@ import Image from "next/image";
 import metamask from "@/assets/images/logo/metamask-logo.png";
 import together from "@/assets/images/logo/together-logo.png";
 import {useRouter} from "next/router";
+import {getShortenedAddress} from "@/services/utils";
 
 export default function Header() {
 
     const {walletAddress, connectWallet} = useContext(UserContext)
-    const shortenWalletAddress = walletAddress ? walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4) : null
+    const shortenWalletAddress = walletAddress ? getShortenedAddress(walletAddress) : null
     const headerRef = useRef<HTMLHeadElement | null>(null)
     const router = useRouter()
 

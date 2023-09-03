@@ -16,8 +16,83 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.card {
+  position: relative;
+  display: inline-block;
+  margin: 1rem;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+  border: 1px solid #232323;
+  flex: 1;
+  padding: 2rem;
+  cursor: pointer;
+  transition: 500ms;
+
+  p {
+    font-weight: 300;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translate(0, -3%);
+    border: 1px solid rgba(255, 255, 255, 0.47);
+    box-shadow: 3px 5px 1px #ffffff;
+
+    i {
+      opacity: 1;
+    }
+  }
+}
+
+.dark_input {
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(140, 140, 140, 0.29);
+  background-color: rgba(0, 0, 0, 0.28);
+  border-radius: 1rem;
+  width: 450px;
+  margin-right: 1rem;
+  box-shadow: inset 1px 1px 8px #000000;
+
+  input {
+    background: transparent;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: 300;
+  }
+}
 
 
+.fa-left-long {
+  position: absolute;
+  font-size: 3rem;
+  top: -70px;
+  left: 0px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 500ms;
 
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+}
 
+.fade-in-bottom {
+  animation: fade-in-bottom 1s ease-in-out;
+}
+
+@keyframes fade-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 

@@ -18,6 +18,8 @@ interface BlockchainContextProps {
     getOwners(multiSigAddress: string): Promise<string[]>;
 
     getNumberOfTransactions(multiSigAddress: string): Promise<number>;
+
+    getTransactionByIndex(multiSigAddress: string, index: number): Promise<any>;
 }
 
 const BlockchainContext = createContext<BlockchainContextProps>({
@@ -33,6 +35,10 @@ const BlockchainContext = createContext<BlockchainContextProps>({
     },
     getNumberOfTransactions: (multiSigAddress: string): Promise<number> => {
         return new Promise<number>(() => {
+        })
+    },
+    getTransactionByIndex: (multiSigAddress: string, index: number): Promise<any> => {
+        return new Promise<any>(() => {
         })
     },
     isWaitingForTransaction: false,
@@ -124,6 +130,27 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         }
     }
 
+    async function getTransactionByIndex(multiSigAddress: string, index: number) {
+        if (typeof window.ethereum !== "undefined") {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
+            try {
+                const transactionResponse = await contract.getTransactionByIndex(index)
+                return {
+                    to: transactionResponse[0],
+                    value: ethers.formatEther(transactionResponse[1]),
+                    data: transactionResponse[2],
+                    executed: transactionResponse[3],
+                    numberOfConfirmations: transactionResponse[4].toString()
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask")
+        }
+    }
+
     ////////////////////////////////
     //  General Methods & Events  //
     ////////////////////////////////
@@ -139,14 +166,14 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
     }
 
     //errors.js:113 Uncaught (in promise) TypeError: unknown fragment (argument="event", value="SubmitTransaction", code=INVALID_ARGUMENT, version=6.7.1)
-    function listenToWalletEvents(walletAddress: string) {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(walletAddress, multiSigWalletFactoryAbi, provider)
-        contract.on("SubmitTransaction", (msg_sender, txIndex, to, value, data) => {
-            console.log(`New transaction from ${msg_sender} to ${to} with value ${value} and data ${data}`)
-            setIsWaitingForTransaction(false)
-        })
-    }
+    // function listenToWalletEvents(walletAddress: string) {
+    //     const provider = new ethers.BrowserProvider(window.ethereum);
+    //     const contract = new ethers.Contract(walletAddress, multiSigWalletFactoryAbi, provider)
+    //     contract.on("SubmitTransaction", (msg_sender, txIndex, to, value, data) => {
+    //         console.log(`New transaction from ${msg_sender} to ${to} with value ${value} and data ${data}`)
+    //         setIsWaitingForTransaction(false)
+    //     })
+    // }
 
 
     function listenForTransactionMine(transactionResponse: any, provider: any) {
@@ -169,6 +196,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         submitTransaction: submitTransaction,
         getOwners: getOwners,
         getNumberOfTransactions: getNumberOfTransactions,
+        getTransactionByIndex: getTransactionByIndex,
         isWaitingForTransaction: isWaitingForTransaction,
         areAddressesValidated: areAddressesValidated
     };

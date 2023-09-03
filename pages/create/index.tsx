@@ -48,7 +48,7 @@ export default function CreatePage() {
 
     return (
         <>
-            <section className={`${classes.create} flex flex-col`}>
+            <section className={`${classes.create} flex flex-col fade-in-bottom`}>
                 <Blur/>
                 <h1>Create your multisig wallet</h1>
                 <p>Please enter the number of confirmations required for every future transaction of this wallet.</p>
@@ -65,7 +65,7 @@ export default function CreatePage() {
                 <div className={`${classes.owners_input_list} flex flex-wrap items-center gap-4`}>
                     {ownersAddresses.map((address, index) => {
                         return (
-                            <div key={index} className={classes.owner_input}>
+                            <div key={index} className={`${classes.owner_input} dark_input`}>
                                 {index > 1 &&
                                     <i className="fa-solid fa-circle-minus" onClick={() => handleRemoveOwnerInput(index)}></i>
                                 }
