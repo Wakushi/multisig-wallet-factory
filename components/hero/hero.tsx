@@ -6,6 +6,8 @@ import Blur from "@/components/ui/blur/blur";
 import heroImg from "@/assets/images/hero/together-hero.webp";
 import {useContext} from "react";
 import {UserContext} from "@/services/UserContext";
+import ShadowTransition from "@/components/ui/shadow-transition/shadow-transition";
+import {handleGoToNextSection} from "@/services/utils";
 
 export default function Hero() {
 
@@ -20,10 +22,6 @@ export default function Hero() {
         }
     }
 
-    function handleGoToDetails() {
-        console.log("How does it work ?")
-    }
-
     return (
         <div className={`${classes.hero} flex justify-center items-center gap-5`}>
             <Blur/>
@@ -32,12 +30,13 @@ export default function Hero() {
                 <p className="text-3xl">Manage your crypto assets with state-of-the-art security and user-friendly interface</p>
                 <div className="flex items-center gap-3.5">
                     <Button filled={true} onClick={goToCreatePage}>Get started</Button>
-                    <Button onClick={handleGoToDetails}>How does it work ?</Button>
+                    <Button onClick={() => handleGoToNextSection(900)}>How does it work ?</Button>
                 </div>
             </div>
             <div className={classes.hero_image_container}>
                 <Image className={classes.hero_image} src={heroImg} alt="A padlock"></Image>
             </div>
+            <ShadowTransition/>
         </div>
     )
 }

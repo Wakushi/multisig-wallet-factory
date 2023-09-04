@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
+@import "../assets/variables.scss";
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -95,6 +96,10 @@ body {
   font-size: 1.4rem;
 }
 
+.fa-angles-down {
+  font-size: 4.5rem;
+}
+
 //////////////////////////
 // KEYFRAMES ANIMATIONS //
 //////////////////////////
@@ -114,6 +119,60 @@ body {
     transform: translateY(0);
   }
 }
+
+.text-shadow-pop-br {
+  -webkit-animation: text-shadow-pop-br 0.6s both;
+  animation: text-shadow-pop-br 0.6s both;
+}
+
+@keyframes text-shadow-pop-br {
+  0% {
+    text-shadow: 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555;
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    text-shadow: 1px 1px #555555, 2px 2px #555555, 3px 3px #555555, 4px 4px #555555, 5px 5px #555555, 6px 6px #555555, 7px 7px #555555, 8px 8px #555555;
+    -webkit-transform: translateX(-8px) translateY(-8px);
+    transform: translateX(-8px) translateY(-8px);
+  }
+}
+
+.fade-in-right {
+  animation: fade-in-right 1s ease-in-out;
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(10px);
+    z-index: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 1;
+  }
+}
+
+.hover {
+  animation: hover 1s ease-in-out infinite;
+}
+
+@keyframes hover {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+
 
 
 

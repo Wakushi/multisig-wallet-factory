@@ -1,0 +1,62 @@
+@import "../assets/variables.scss";
+
+.transaction_step_container,
+.manage_wallets_step_container,
+.creation_step_container,
+.multisig_description {
+  height: 100dvh;
+  background-color: #141348;
+  box-shadow: inset 1px 1px 40px #000000;
+  position: relative;
+  overflow: hidden;
+
+  .transaction_step_content,
+  .manage_wallets_content,
+  .creation_step_content,
+  .multisig_description_content {
+    max-width: 1240px;
+    z-index: 1;
+    text-align: center;
+
+    h2 {
+      line-height: 0.8;
+      text-shadow: 3px 3px 2px $secondary-color;
+    }
+
+    p {
+      max-width: 900px;
+    }
+
+    p:nth-child(3) {
+      margin-bottom: 3rem;
+    }
+
+
+  }
+}
+
+.transaction_step_content,
+.manage_wallets_content,
+.creation_step_content {
+  h2 {
+
+    line-height: 0.9 !important;
+  }
+
+  h2, p {
+    text-align: left;
+  }
+
+  .transaction_step_img_container,
+  .wallet_step_img_container,
+  .creation_step_img_container {
+    border: 4px solid #ffffff;
+    box-shadow: 8px 8px 0px $secondary-color;
+    transition: 500ms;
+
+    &:hover {
+      transform: translate(-10px, -10px) scale(1.05);
+      box-shadow: 20px 20px 10px $secondary-color;
+    }
+  }
+}

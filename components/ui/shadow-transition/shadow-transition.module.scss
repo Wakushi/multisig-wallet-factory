@@ -1,0 +1,13 @@
+.shadow_transition,
+.shadow_transition_reversed {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(360deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.shadow_transition_reversed {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  top: 0;
+}
