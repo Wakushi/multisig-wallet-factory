@@ -1,5 +1,6 @@
-import React, {createContext, useState, ReactNode, useEffect} from 'react';
+import React, {createContext, useState, ReactNode, useEffect, useContext} from 'react';
 import {useRouter} from "next/router";
+import {SnackbarContext} from "@/services/SnackbarContext";
 
 interface UserContextProviderProps {
     children: ReactNode;
@@ -21,6 +22,7 @@ const UserContext = createContext<UserContextProps>({
 export default function UserContextProvider(props: UserContextProviderProps) {
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
     const router = useRouter();
+    const {openSnackBar} = useContext(SnackbarContext);
 
     useEffect(() => {
         connectWalletHandler()
@@ -33,9 +35,11 @@ export default function UserContextProvider(props: UserContextProviderProps) {
                 setWalletAddress(accounts[0])
                 return accounts[0]
             } catch (error) {
-                router.push('/')
                 console.error(error)
             }
+        } else {
+            await router.push('/')
+            openSnackBar("installMetamask")
         }
     }
 

@@ -17,6 +17,7 @@ interface BlockchainContextProps {
     executeTransaction: (multiSigAddress: string, transactionIndex: number) => void;
 
     isWaitingForTransaction: boolean;
+    wallets: string[];
 
     getOwners(multiSigAddress: string): Promise<string[]>;
 
@@ -73,16 +74,19 @@ const BlockchainContext = createContext<BlockchainContextProps>({
         })
     },
     isWaitingForTransaction: false,
+    wallets: []
 });
 
 export default function BlockchainContextProvider(props: BlockchainContextProviderProps) {
     const [isWaitingForTransaction, setIsWaitingForTransaction] = useState<boolean>(false)
+    const [wallets, setWallets] = useState<string[]>([])
     const {walletAddress} = useContext(UserContext)
     const router = useRouter()
 
     useEffect(() => {
         listenToFactoryEvents();
-    }, [])
+        handleGetWalletsByOwner()
+    }, [walletAddress])
 
     ////////////////////////////////////
     // MultiSigWalletFactory Methods  //
@@ -109,7 +113,8 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(multiSigWalletFactoryAddress, multiSigWalletFactoryAbi, provider)
             try {
-                return await contract.getWalletsByOwner(walletAddress)
+                const wallets = await contract.getWalletsByOwner(walletAddress)
+                setWallets(wallets)
             } catch (error) {
                 console.log(error)
             }
@@ -145,8 +150,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(multiSigAddress, multiSigWalletAbi, provider)
             try {
-                const transactionResponse = await contract.getNumberOfTransactions()
-                return transactionResponse
+                return await contract.getNumberOfTransactions()
             } catch (error) {
                 console.log(error)
             }
@@ -322,11 +326,8 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
 
     function listenForTransactionMine(transactionResponse: any, provider: any) {
         console.log(`Mining ${transactionResponse.hash}`)
-        return new Promise<void>((resolve, reject) => {
-            provider.once(transactionResponse.hash, (transactionReceipt: any) => {
-                console.log(
-                    `Completed with ${transactionReceipt.confirmations} confirmations. `
-                )
+        return new Promise<void>((resolve) => {
+            provider.once(transactionResponse.hash, () => {
                 setIsWaitingForTransaction(false)
                 resolve()
             })
@@ -348,6 +349,7 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         getWalletBalance: getWalletBalance,
         handleGetWalletsByOwner: handleGetWalletsByOwner,
         isWaitingForTransaction: isWaitingForTransaction,
+        wallets: wallets
     };
 
     return (

@@ -10,6 +10,7 @@ import TransactionCard from "@/components/transaction-card/transaction-card";
 import {BlockchainContext} from "@/services/BlockchainContext";
 import {SnackbarContext} from "@/services/SnackbarContext";
 import {ErrorContext} from "@/services/ErrorContext";
+import {UserContext} from "@/services/UserContext";
 
 interface Transaction {
     to: string;
@@ -28,6 +29,14 @@ export default function WalletDetailsPage() {
     const [isFormValid, setIsFormValid] = useState<boolean>(true)
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [owners, setOwners] = useState<string[]>([])
+    const router = useRouter()
+    const {walletId} = router.query
+    const txTo = useRef<HTMLInputElement>(null)
+    const txValue = useRef<HTMLInputElement>(null)
+    const txData = useRef<HTMLInputElement>(null)
+    const {areAddressesValid} = useContext(ErrorContext)
+    const {openSnackBar} = useContext(SnackbarContext)
+    const {walletAddress} = useContext(UserContext)
     const {
         getNumberOfTransactions,
         submitTransaction,
@@ -41,13 +50,6 @@ export default function WalletDetailsPage() {
         getWalletBalance,
         isWaitingForTransaction
     } = useContext(BlockchainContext)
-    const {openSnackBar} = useContext(SnackbarContext)
-    const {areAddressesValid} = useContext(ErrorContext)
-    const router = useRouter()
-    const {walletId} = router.query
-    const txTo = useRef<HTMLInputElement>(null)
-    const txValue = useRef<HTMLInputElement>(null)
-    const txData = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (walletId) {
@@ -59,7 +61,7 @@ export default function WalletDetailsPage() {
         if (+numberOfTransactions > 0) {
             handleGetAllTransactions()
         }
-    }, [numberOfTransactions, isWaitingForTransaction])
+    }, [numberOfTransactions, isWaitingForTransaction, walletAddress])
 
     /////////////////////////////
     // MultiSigWallet Methods  //

@@ -10,26 +10,23 @@ interface Wallet {
 }
 
 export default function WalletsPage() {
-    const [wallets, setWallets] = useState<Wallet[]>()
-    const {getOwners, handleGetWalletsByOwner} = useContext(BlockchainContext);
+    const [userWallets, setUserWallets] = useState<Wallet[]>()
+    const {getOwners, wallets} = useContext(BlockchainContext);
 
     useEffect(() => {
         getWallets()
-    }, [])
+    }, [wallets])
 
     async function getWallets() {
-        const userWallets = await handleGetWalletsByOwner()
-        if (userWallets && userWallets.length) {
-            const allWallets: Wallet[] = []
-            for (const walletAddress of userWallets) {
-                const walletOwners: string[] = await getOwners(walletAddress);
-                allWallets.push({
-                    address: walletAddress,
-                    owners: walletOwners
-                })
-            }
-            setWallets(allWallets)
+        const allWallets: Wallet[] = []
+        for (const walletAddress of wallets) {
+            const walletOwners: string[] = await getOwners(walletAddress);
+            allWallets.push({
+                address: walletAddress,
+                owners: walletOwners
+            })
         }
+        setUserWallets(allWallets)
     }
 
     return (
@@ -37,7 +34,7 @@ export default function WalletsPage() {
             <Blur/>
             <h1>Manage your multisig wallets</h1>
             <div className="flex flex-wrap gap-4">
-                {wallets && wallets.map((wallet) => {
+                {userWallets && userWallets.map((wallet) => {
                     return <WalletCard wallet={wallet} key={wallet.address}/>;
                 })}
             </div>
