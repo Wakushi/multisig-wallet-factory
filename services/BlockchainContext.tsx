@@ -11,14 +11,12 @@ interface BlockchainContextProviderProps {
 
 interface BlockchainContextProps {
     createMultiSigWallet: (ownersAddresses: string[], requiredConfirmationsAmount: number) => void;
-    setAreAddressesValidated: (areAddressesValidated: boolean) => void;
     submitTransaction: (multiSigAddress: string, destination: string, value: string, data: string) => void;
     confirmTransaction: (multiSigAddress: string, transactionIndex: number) => void;
     revokeConfirmation: (multiSigAddress: string, transactionIndex: number) => void;
     executeTransaction: (multiSigAddress: string, transactionIndex: number) => void;
 
     isWaitingForTransaction: boolean;
-    areAddressesValidated: boolean;
 
     getOwners(multiSigAddress: string): Promise<string[]>;
 
@@ -37,8 +35,6 @@ interface BlockchainContextProps {
 
 const BlockchainContext = createContext<BlockchainContextProps>({
     createMultiSigWallet: (ownersAddresses: string[], requiredConfirmationsAmount: number) => {
-    },
-    setAreAddressesValidated: (areAddressesValidated: boolean) => {
     },
     submitTransaction: (multiSigAddress: string, destination: string, value: string, data: string) => {
     },
@@ -77,12 +73,10 @@ const BlockchainContext = createContext<BlockchainContextProps>({
         })
     },
     isWaitingForTransaction: false,
-    areAddressesValidated: true
 });
 
 export default function BlockchainContextProvider(props: BlockchainContextProviderProps) {
     const [isWaitingForTransaction, setIsWaitingForTransaction] = useState<boolean>(false)
-    const [areAddressesValidated, setAreAddressesValidated] = useState<boolean>(true)
     const {walletAddress} = useContext(UserContext)
     const router = useRouter()
 
@@ -104,7 +98,6 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
                 listenForTransactionMine(transactionResponse, provider)
             } catch (error) {
                 console.log(error)
-                setAreAddressesValidated(false)
             }
         } else {
             console.log("Please install MetaMask")
@@ -217,7 +210,6 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
             const provider = new ethers.BrowserProvider(window.ethereum);
             try {
                 const balance = await provider.getBalance(multiSigAddress);
-                console.log(balance)
                 return ethers.formatEther(balance)
             } catch (error) {
                 console.log(error)
@@ -344,7 +336,6 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
 
     const context: BlockchainContextProps = {
         createMultiSigWallet: createMultiSigWalletHandler,
-        setAreAddressesValidated: setAreAddressesValidated,
         submitTransaction: submitTransaction,
         confirmTransaction: confirmTransaction,
         revokeConfirmation: revokeConfirmation,
@@ -357,7 +348,6 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         getWalletBalance: getWalletBalance,
         handleGetWalletsByOwner: handleGetWalletsByOwner,
         isWaitingForTransaction: isWaitingForTransaction,
-        areAddressesValidated: areAddressesValidated
     };
 
     return (

@@ -1,12 +1,12 @@
 @import "../../../assets/variables.scss";
 
 .snackbar_container {
-  position: absolute;
-  z-index: 5;
-  background-color: $secondary-color;
+  position: fixed;
+  z-index: 6;
+  background: linear-gradient(180deg, rgba(103, 86, 255, 0.5) 0%, rgba(0, 0, 0, 0.4) 100%);
   border-radius: 0 0 1rem 1rem;
   padding: 1rem 2rem;
-  top: 0%;
+  top: 0;
   left: 50%;
   transform: translate(-50%);
   animation: slide-in-and-out 2s ease-in-out forwards;

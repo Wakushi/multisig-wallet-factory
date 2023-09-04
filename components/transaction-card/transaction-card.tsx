@@ -11,7 +11,7 @@ interface TransactionCardProps {
     requiredAmountOfConfirmations: number;
     handleConfirmTransaction: (transactionIndex: number) => void;
     handleRevokeTransaction: (transactionIndex: number) => void;
-    handleExecuteTransaction: (transactionIndex: number) => void;
+    handleExecuteTransaction: (transactionIndex: number, transactionValue: number) => void;
     handleHasOwnerConfirmedTx: (transactionIndex: number) => Promise<boolean>;
 }
 
@@ -50,7 +50,8 @@ export default function TransactionCard({
             <p><span className="font-bold">Confirmations:</span> {numberOfConfirmations}</p>
             {!executed && <div className="flex items-center gap-4 mt-2">
                 {isTransactionExecutable() &&
-                    <button onClick={() => handleExecuteTransaction(id)} className={`${classes.small_btn} ${classes.execute_btn}`}>Execute</button>}
+                    <button onClick={() => handleExecuteTransaction(id, +value)}
+                            className={`${classes.small_btn} ${classes.execute_btn}`}>Execute</button>}
                 {ownerConfirmedTx ?
                     <button onClick={() => handleRevokeTransaction(id)} className={`${classes.small_btn} ${classes.revoke_btn}`}>Revoke</button> :
                     <button onClick={() => handleConfirmTransaction(id)} className={`${classes.small_btn} ${classes.confirm_btn}`}>Confirm

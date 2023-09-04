@@ -3,12 +3,13 @@ import classes from "./wallet-details.module.scss";
 import Blur from "@/components/ui/blur/blur";
 import Button from "@/components/ui/button/button";
 import {useContext, useEffect, useRef, useState} from "react";
-import {BlockchainContext} from "@/services/BlockchainContext";
 import WaitingModal from "@/components/waiting-modal/waiting-modal";
-import {areAddressesValid, getShortenedAddress} from "@/services/utils";
+import {getShortenedAddress} from "@/services/utils";
 import CreateTransactionModal from "@/components/create-transaction-modal/create-transaction-modal";
 import TransactionCard from "@/components/transaction-card/transaction-card";
+import {BlockchainContext} from "@/services/BlockchainContext";
 import {SnackbarContext} from "@/services/SnackbarContext";
+import {ErrorContext} from "@/services/ErrorContext";
 
 interface Transaction {
     to: string;
@@ -41,6 +42,7 @@ export default function WalletDetailsPage() {
         isWaitingForTransaction
     } = useContext(BlockchainContext)
     const {openSnackBar} = useContext(SnackbarContext)
+    const {areAddressesValid} = useContext(ErrorContext)
     const router = useRouter()
     const {walletId} = router.query
     const txTo = useRef<HTMLInputElement>(null)
@@ -114,8 +116,11 @@ export default function WalletDetailsPage() {
         revokeConfirmation(walletId as string, transactionIndex)
     }
 
-    function handleExecuteTransaction(transactionIndex: number) {
-
+    function handleExecuteTransaction(transactionIndex: number, transactionValue: number) {
+        if (transactionValue > +walletBalance) {
+            openSnackBar("lowBalance")
+            return
+        }
         executeTransaction(walletId as string, transactionIndex)
     }
 
@@ -164,7 +169,7 @@ export default function WalletDetailsPage() {
                         router.push('/wallets')
                     }}>
                 </i>
-                <div className={`${classes.wallet_details_head} flex flex-col gap-1 fade-in-bottom`}>
+                <div className={`${classes.wallet_details_head} flex flex-col gap-1 fade-in-bottom brand-container`}>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <h1>{getShortenedAddress(walletId as string)} </h1>

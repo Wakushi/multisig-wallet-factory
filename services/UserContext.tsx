@@ -1,4 +1,5 @@
-import React, {createContext, useState, ReactNode} from 'react';
+import React, {createContext, useState, ReactNode, useEffect} from 'react';
+import {useRouter} from "next/router";
 
 interface UserContextProviderProps {
     children: ReactNode;
@@ -19,6 +20,11 @@ const UserContext = createContext<UserContextProps>({
 
 export default function UserContextProvider(props: UserContextProviderProps) {
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        connectWalletHandler()
+    }, [])
 
     async function connectWalletHandler(): Promise<string | undefined> {
         if (typeof window.ethereum !== 'undefined') {
@@ -27,6 +33,7 @@ export default function UserContextProvider(props: UserContextProviderProps) {
                 setWalletAddress(accounts[0])
                 return accounts[0]
             } catch (error) {
+                router.push('/')
                 console.error(error)
             }
         }

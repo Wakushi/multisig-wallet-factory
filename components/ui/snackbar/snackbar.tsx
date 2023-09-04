@@ -5,7 +5,11 @@ export default function Snackbar({snackbarMessageType}: any) {
         switch (snackbarMessageType) {
             case "copy":
                 return "Copied to clipboard"
+                break;
 
+            case "lowBalance":
+                return "Wallet's balance is too low"
+                break;
             default:
                 return ""
         }
