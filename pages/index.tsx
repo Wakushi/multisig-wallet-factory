@@ -125,17 +125,20 @@ export default function Home() {
             </section>
             <section className={`${classes.transaction_step_container} flex justify-center items-center gap-5`} ref={transactionStepRef}>
                 {displayTransactionStepSection &&
-                    <div className={`${classes.transaction_step_content} flex justify-center items-center gap-8 fade-in-right`}>
-                        <div className="flex-1">
-                            <h2 className="text-7xl mb-4">3. Create, confirm and execute transactions</h2>
-                            <p className="text-3xl">Always keep an eye on all the current transactions and their details.</p>
+                    <div className="flex flex-col items-center gap-36">
+                        <div className={`${classes.transaction_step_content} flex justify-center items-center gap-8 fade-in-right`}>
+                            <div className="flex-1">
+                                <h2 className="text-7xl mb-4">3. Create, confirm and execute transactions</h2>
+                                <p className="text-3xl">Always keep an eye on all the current transactions and their details.</p>
 
-                        </div>
-                        <div className="flex-1">
-                            <div className={classes.transaction_step_img_container}>
-                                <Image src={transactionStepImg} alt="Transaction managment step"></Image>
+                            </div>
+                            <div className="flex-1">
+                                <div className={classes.transaction_step_img_container}>
+                                    <Image src={transactionStepImg} alt="Transaction managment step"></Image>
+                                </div>
                             </div>
                         </div>
+                        <i className="fa-solid fa-angles-up hover" onClick={() => handleGoToNextSection(0)}></i>
                     </div>}
                 <Blur/>
                 <ShadowTransition reversed={true}/>
