@@ -6,7 +6,7 @@ import transactionStepImg from "@/assets/images/tutorial-steps/transaction-step.
 export default function Tutorial() {
     return (
         <>
-            <TutorialStep scrollPosition={1850}>
+            <TutorialStep scrollPosition={1900}>
                 <h2 id="tutorial_start" className="text-8xl text-center mb-16">What is a multi-sig wallet ?</h2>
                 <p className="text-3xl text-center fade-in-right max-w-4xl mb-5">A multisig wallet on Ethereum is a digital wallet that requires
                     multiple
@@ -20,7 +20,7 @@ export default function Tutorial() {
                     adding an extra layer of security.
                 </p>
             </TutorialStep>
-            <TutorialStep imgSrc={creationStepImg} scrollPosition={2850}>
+            <TutorialStep imgSrc={creationStepImg} scrollPosition={2900}>
                 <div className="flex">
                     <h2 className="text-[4vw]">1.</h2>
                     <div>
@@ -32,7 +32,7 @@ export default function Tutorial() {
                     </div>
                 </div>
             </TutorialStep>
-            <TutorialStep imgSrc={walletsStepImg} scrollPosition={3800}>
+            <TutorialStep imgSrc={walletsStepImg} scrollPosition={3900}>
                 <div className="flex">
                     <h2 className="text-[4vw]">2.</h2>
                     <div>

@@ -1,7 +1,6 @@
 import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {ethers} from "ethers";
 import {multiSigWalletAbi, multiSigWalletFactoryAbi, multiSigWalletFactoryAddress} from "@/services/constants";
-import {saveMultiSigAddress} from "@/services/utils";
 import {useRouter} from "next/router";
 import {UserContext} from "@/services/UserContext";
 
@@ -108,18 +107,21 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
         }
     }
 
-    async function handleGetWalletsByOwner() {
+    async function handleGetWalletsByOwner(): Promise<boolean> {
         if (typeof window.ethereum !== "undefined") {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(multiSigWalletFactoryAddress, multiSigWalletFactoryAbi, provider)
             try {
                 const wallets = await contract.getWalletsByOwner(walletAddress)
                 setWallets(wallets)
+                return true
             } catch (error) {
                 console.log(error)
+                return false
             }
         } else {
             console.log("Please install MetaMask")
+            return false
         }
     }
 
@@ -306,10 +308,12 @@ export default function BlockchainContextProvider(props: BlockchainContextProvid
     function listenToFactoryEvents() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const contract = new ethers.Contract(multiSigWalletFactoryAddress, multiSigWalletFactoryAbi, provider)
-        contract.on("MultiSigWalletDeployed", (_, __, contractAddress) => {
-            saveMultiSigAddress(contractAddress)
+        contract.on("MultiSigWalletDeployed", async () => {
             setIsWaitingForTransaction(false)
-            router.push("/wallets")
+            const walletFetched = await handleGetWalletsByOwner()
+            if (walletFetched) {
+                router.push("/wallets")
+            }
         })
     }
 
