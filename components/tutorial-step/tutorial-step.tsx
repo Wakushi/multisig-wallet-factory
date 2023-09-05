@@ -34,7 +34,7 @@ export default function TutorialStep({children, imgSrc, scrollPosition}: Tutoria
             {displayTutorialStep &&
                 <div className="flex flex-col items-center gap-40">
                     <div className={`${classes.tutorial_step_content} flex justify-center items-center gap-8 fade-in-right`}>
-                        <div>
+                        <div className="flex flex-col items-center">
                             {children}
                         </div>
                         {imgSrc && <div>

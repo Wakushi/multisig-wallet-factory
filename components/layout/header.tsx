@@ -49,8 +49,8 @@ export default function Header() {
         </div>
         <nav>
             <ul className="flex items-center gap-14">
-                <li className={classes.nav_link} onClick={() => handleConnectionPriorRouting('/create')}>Create</li>
-                <li className={classes.nav_link} onClick={() => handleConnectionPriorRouting('/wallets')}>Manage</li>
+                <li className={classes.nav_link} tabIndex={0} onClick={() => handleConnectionPriorRouting('/create')}>Create</li>
+                <li className={classes.nav_link} tabIndex={0} onClick={() => handleConnectionPriorRouting('/wallets')}>Manage</li>
                 <li className={classes.nav_link}><Link href="/">About</Link></li>
                 <Button onClick={connectWallet}>
                     {walletAddress ?
