@@ -1,0 +1,49 @@
+@import "../../assets/variables.scss";
+
+.tutorial_step_container {
+  height: 100dvh;
+  background-color: #000000;
+  box-shadow: inset 1px 1px 40px #000000;
+  position: relative;
+  overflow: hidden;
+
+  .tutorial_step_content {
+    max-width: 1240px;
+    z-index: 1;
+    text-align: center;
+
+    h2 {
+      line-height: 0.8;
+      text-shadow: 3px 3px 2px $secondary-color;
+    }
+
+    p {
+      max-width: 900px;
+    }
+
+    p:nth-child(3) {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      line-height: 0.9 !important;
+    }
+
+    h2, p {
+      text-align: left;
+    }
+
+    .tutorial_step_img_container {
+      border: 4px solid #ffffff;
+      box-shadow: 8px 8px 0px $secondary-color;
+      transition: 500ms;
+
+      &:hover {
+        transform: translate(-10px, -10px) scale(1.05);
+        box-shadow: 20px 20px 10px $secondary-color;
+      }
+    }
+
+  }
+}
+
