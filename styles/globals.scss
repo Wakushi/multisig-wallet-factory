@@ -110,6 +110,10 @@ body {
   animation: fade-in-bottom 1s ease-in-out;
 }
 
+.slow-fade-in-bottom {
+  animation: fade-in-bottom 2s ease-in-out;
+}
+
 @keyframes fade-in-bottom {
   0% {
     opacity: 0;

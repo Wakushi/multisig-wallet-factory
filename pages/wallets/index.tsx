@@ -41,7 +41,7 @@ export default function WalletsPage() {
                     userWallets.map((wallet) => {
                         return <WalletCard wallet={wallet} key={wallet.address}/>
                     })
-                    : <div>
+                    : <div className="slow-fade-in-bottom">
                         <h2 className="text-3xl mb-10">You don't have any multisig wallets yet</h2>
                         <Button onClick={() => {
                             router.push('/create')

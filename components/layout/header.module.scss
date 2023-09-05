@@ -31,8 +31,27 @@
     transition: 500ms;
     cursor: pointer;
 
-    &:hover {
-      opacity: 0.7;
-    }
+
+  }
+
+  .nav_link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: $secondary-color;
+    width: 0;
+    height: 2px;
+    transition: 0.4s;
+  }
+
+  .nav_link:hover::before,
+  .nav_link:focus::before {
+    width: 100%;
+  }
+
+  .nav_link:hover,
+  .nav_link:focus {
+    transform: scale(1.1);
   }
 }

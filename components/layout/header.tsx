@@ -51,7 +51,7 @@ export default function Header() {
             <ul className="flex items-center gap-14">
                 <li className={classes.nav_link} tabIndex={0} onClick={() => handleConnectionPriorRouting('/create')}>Create</li>
                 <li className={classes.nav_link} tabIndex={0} onClick={() => handleConnectionPriorRouting('/wallets')}>Manage</li>
-                <li className={classes.nav_link}><Link href="/">About</Link></li>
+                <li className={classes.nav_link} tabIndex={0}><Link href="https://ethereum.org/fr/">Ethereum ?</Link></li>
                 <Button onClick={connectWallet}>
                     {walletAddress ?
                         <>
