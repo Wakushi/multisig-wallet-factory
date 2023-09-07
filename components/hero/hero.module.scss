@@ -6,12 +6,45 @@
   position: relative;
   overflow: hidden;
   box-shadow: 1px 1px 40px #000000;
+  padding: 0 5rem;
+
+  @media (width < 450px) {
+    padding: 0 1rem;
+  }
 
   .hero_text {
     max-width: 740px;
 
-    h1 {
+    .hero_main_title {
+      font-size: 3.8vw;
       line-height: 0.8;
+      @media (width < 900px) {
+        font-size: 2rem;
+        text-align: center;
+      }
+    }
+
+    .hero_subtitle {
+      font-size: 1.5vw;
+      line-height: 1.2;
+      @media (width < 900px) {
+        font-size: 1.4rem;
+        text-align: center;
+      }
+    }
+
+    .hero_actions {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      @media (width < 900px) {
+        justify-content: center;
+      }
+
+      @media (width < 450px) {
+        flex-direction: column;
+      }
     }
   }
 
@@ -21,12 +54,16 @@
     border-radius: 0.8rem;
     overflow: hidden;
     box-shadow: 45px 45px 20px #000000;
-    max-width: 500px;
+    max-width: 400px;
     background-color: rgba(2, 0, 0, 0.16);
     animation: animateHeroImgContainerShadow 20s infinite;
 
+    @media (width < 900px) {
+      display: none;
+    }
+
     .hero_image {
-      max-width: 400px;
+
       opacity: 0.8;
       animation: animateHeroImgShadow 20s infinite;
     }

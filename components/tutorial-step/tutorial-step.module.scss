@@ -8,6 +8,12 @@
   overflow: hidden;
   padding: 0 2rem;
 
+  i {
+    @media (width < 900px) {
+      font-size: 1.4rem;
+    }
+  }
+
   .tutorial_step_content {
     max-width: 1240px;
     z-index: 1;
@@ -15,12 +21,28 @@
     h2 {
       line-height: 0.9;
       text-shadow: 3px 3px 2px $secondary-color;
+
+      @media (width < 900px) {
+        font-size: 1.4rem;
+        text-align: center;
+      }
+    }
+
+    p {
+      @media (width < 900px) {
+        font-size: 1rem;
+        text-align: center;
+      }
     }
 
     .tutorial_step_img_container {
       border: 4px solid #ffffff;
       box-shadow: 8px 8px 0px $secondary-color;
       transition: 500ms;
+
+      @media (width < 900px) {
+        display: none;
+      }
 
       &:hover {
         transform: translate(-10px, -10px) scale(1.05);

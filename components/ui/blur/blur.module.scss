@@ -13,6 +13,10 @@
   filter: blur(60px);
   animation: animateHeroBlur 20s infinite;
   pointer-events: none;
+
+  @media (width < 900px) {
+    animation: none;
+  }
 }
 
 @-moz-document url-prefix() {

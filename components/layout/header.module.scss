@@ -2,9 +2,9 @@
 
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 3rem 0;
+  padding: 3rem 5rem;
   position: fixed;
   top: 0;
   width: 100%;
@@ -13,45 +13,92 @@
 
   &.header_scrolled {
     background: #000000;
-    padding: 1rem 0.5rem 0.5rem;
+    padding: 1rem 4rem 0.5rem;
     box-shadow: 0 20px 20px #000000;
   }
 
-  .logo_text {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
 
-    .logo_special {
-      color: $secondary-color;
+  .logo_container {
+
+    .logo_text {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+
+      .logo_special {
+        color: $secondary-color;
+      }
+
+      @media (width < 570px) {
+        display: none;
+      }
     }
   }
 
-  .nav_link {
-    transition: 500ms;
-    cursor: pointer;
+
+  .nav_bar {
+
+    li {
+      @media (width < 900px) {
+        display: none;
+      }
+    }
+
+    .nav_link {
+      transition: 500ms;
+      cursor: pointer;
+    }
+
+    .nav_link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: $secondary-color;
+      width: 0;
+      height: 2px;
+      transition: 0.4s;
+    }
+
+    .nav_link:hover::before,
+    .nav_link:focus::before {
+      width: 100%;
+    }
+
+    .nav_link:hover,
+    .nav_link:focus {
+      transform: scale(1.1);
+    }
 
 
   }
 
-  .nav_link::before {
-    content: "";
+  .small_nav_bar {
     position: absolute;
+    transform: translateY(-125%);
     left: 0;
-    bottom: 0;
-    background-color: $secondary-color;
-    width: 0;
-    height: 2px;
-    transition: 0.4s;
-  }
-
-  .nav_link:hover::before,
-  .nav_link:focus::before {
     width: 100%;
+    opacity: 1;
+    border: 1px dotted #fff;
+    padding: 3rem 2rem;
+    box-shadow: 2px 2px 1px #fff;
+    background: #25174b;
+    transition: 500ms;
+    @media (width > 900px) {
+      display: none;
+    }
+    @media (width < 570px) {
+      padding: 3.4rem 2rem;
+    }
+
+    .wallet_button {
+      @media (width < 570px) {
+        display: none;
+      }
+    }
+
+
   }
 
-  .nav_link:hover,
-  .nav_link:focus {
-    transform: scale(1.1);
-  }
+
 }
